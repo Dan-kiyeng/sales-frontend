@@ -14,6 +14,7 @@ const SalesHistory = () => {
   const fetchSales = async () => {
     try {
       const response = await salesAPI.getAll();
+      console.log("Total Sales: ", response.data)
       setSales(response.data.reverse());
     } catch (error) {
       console.error('Error fetching sales:', error);
@@ -22,7 +23,7 @@ const SalesHistory = () => {
     }
   };
 
-  const totalRevenue = sales.reduce((sum, sale) => sum + sale.totalAmount, 0);
+  const totalRevenue = sales.reduce((sum, sale) => sum + sale.totalPrice, 0);
   const totalQuantity = sales.reduce((sum, sale) => sum + sale.quantitySold, 0);
 
   if (loading) {
@@ -107,12 +108,11 @@ const SalesHistory = () => {
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900 font-medium">
                     {typeof sale.productId === 'object' && sale.productId !== null
-                      ? sale.productId.name
-                      : sale.productName || 'Unknown Product'}
+                      ? sale.productId.name : 'Unknown Product'}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900">{sale.quantitySold}</td>
                   <td className="px-6 py-4 text-sm text-gray-900 font-semibold">
-                    ${sale.totalAmount.toFixed(2)}
+                    ${sale.totalPrice.toFixed(2)}
                   </td>
                 </tr>
               ))}

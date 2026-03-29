@@ -34,7 +34,7 @@ const Dashboard = () => {
 
   const totalProducts = products.length;
   const totalStock = products.reduce((sum, p) => sum + p.stock, 0);
-  const totalRevenue = sales.reduce((sum, s) => sum + s.totalAmount, 0);
+  const totalRevenue = sales.reduce((sum, s) => sum + s.totalPrice, 0);
   const lowStockCount = alerts.length;
 
   const topProducts = products
@@ -49,7 +49,7 @@ const Dashboard = () => {
     .slice(-7)
     .map(s => ({
       date: new Date(s.saleDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      revenue: s.totalAmount,
+      revenue: s.totalPrice,
     }));
 
   if (loading) {

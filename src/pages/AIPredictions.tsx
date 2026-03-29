@@ -6,7 +6,7 @@ import { Product, Prediction } from '../types';
 const AIPredictions = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState('');
-  const [prediction, setPrediction] = useState<Prediction | null>(null);
+  const [prediction, setPrediction] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -23,11 +23,13 @@ const AIPredictions = () => {
   };
 
   const handlePredict = async () => {
-    if (!selectedProduct) return;
+    if (!selectedProduct) return
+    console.log("product not selected");
 
     setLoading(true);
     try {
       const response = await aiAPI.getPrediction(selectedProduct);
+      console.log("Prediction: ", response.data);
       setPrediction(response.data);
     } catch (error) {
       console.error('Error fetching prediction:', error);
@@ -100,7 +102,7 @@ const AIPredictions = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               <div className="bg-white rounded-lg p-6 shadow-sm">
                 <p className="text-sm font-medium text-gray-600 mb-2">Predicted Demand</p>
-                <p className="text-4xl font-bold text-blue-600">{prediction.predictedDemand}</p>
+                <p className="text-4xl font-bold text-blue-600">{prediction.predictedNextDemand}</p>
                 <p className="text-xs text-gray-500 mt-1">units</p>
               </div>
 
@@ -127,7 +129,7 @@ const AIPredictions = () => {
                 <li className="flex items-start gap-2">
                   <span className="text-blue-600 mt-1">•</span>
                   <span>
-                    The AI predicts a demand of <strong>{prediction.predictedDemand} units</strong> for the upcoming period.
+                    The AI predicts a demand of <strong>{prediction.predictedNextDemand} units</strong> for the upcoming period.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
